@@ -1,7 +1,7 @@
 import shift
 import terminaltables
 
-action_messages = [["Action", "Description"], ["1) Create A Shift", "Selecting this action allows you to create / log a shift!"], ["2) Delete A Shift", "Selecting this action allows you to delete a shift!"], ["3) Get A Shift", "Selecting this action allows you to retrieve information about a specific shift."], ["4) List All Shifts", "Selecting this action allows you to see a list of all logged shifts."], ["5) Reset All Shifts", "This will delete all logged shifts, BE CAREFUL!"]]
+action_messages = [["Action", "Description"], ["1) Create A Shift", "Selecting this action allows you to create / log a shift!"], ["2) Delete A Shift", "Selecting this action allows you to delete a shift!"], ["3) Get A Shift", "Selecting this action allows you to retrieve information about a specific shift."], ["4) List All Shifts", "Selecting this action allows you to see a list of all logged shifts."], ["5) Reset All Shifts", "This will delete all logged shifts, BE CAREFUL!"], ["6) Get Total Pay", "Get the total pay for all shifts logged."]]
 table = terminaltables.ascii_table.AsciiTable(action_messages)
 
 def main():
@@ -25,6 +25,8 @@ def main():
     elif action == 5:
         shift.drop_table()
         shift.create_table()
+    elif action == 6:
+        shift.get_total_pay()
     else:
         print("Invalid Action Entered, Please Try Again!")
     print("--- TimeClock ---")

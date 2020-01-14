@@ -30,7 +30,7 @@ def drop_table():
 def add_shift():
     shift_started_at = datetime.datetime.strptime(input("Enter The Date and Time That The Shift Started (DD/MM/YYYY HH:MM AM/PM): "), "%d/%m/%Y %I:%M %p")
     shift_ended_at = datetime.datetime.strptime(input("Enter The Date and Time That The Shift Ended (DD/MM/YYYY HH:MM AM/PM): "), "%d/%m/%Y %I:%M %p")
-    hours_worked = divmod((shift_ended_at - shift_started_at).total_seconds(), 3600)[0] 
+    hours_worked = (shift_ended_at - shift_started_at).total_seconds() / 3600
     shift_started_at_friendly = str(datetime.datetime.strftime(shift_started_at, "%I:%M %p on %A, %d %B %Y"))
     shift_ended_at_friendly = str(datetime.datetime.strftime(shift_ended_at, "%I:%M %p on %A, %d %B %Y"))
 
@@ -50,6 +50,30 @@ def add_shift():
         
     connection.commit()
     connection.close()
+
+def get_total_pay():
+    connection = sqlite3.connect("time-clock.db")
+
+    cursor = connection.cursor()
+    shifts = cursor.execute("SELECT * FROM shifts").fetchall()
+        
+    connection.commit()
+    connection.close()
+
+    shifts_data = [
+        ["Hours Worked", "Total Pay"],
+    ]
+
+    total_pay = 0
+    hours_worked = 0
+
+    for shift in shifts:
+        hours_worked += shift[5]
+        total_pay += shift[7]
+    shifts_data.append([hours_worked, total_pay])
+        
+    table = terminaltables.ascii_table.AsciiTable(shifts_data)
+    print(table.table)
     
 def list_shifts():
     connection = sqlite3.connect("time-clock.db")

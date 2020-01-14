@@ -1,4 +1,3 @@
-.vscode
-*.pyc
+*.png
+__pycache__
 *.db
-*.cprof
